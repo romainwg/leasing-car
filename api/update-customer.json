@@ -1,0 +1,18 @@
+{
+  "method": "PUT",
+  "request": {
+    "id": 0,
+    "email": "contact@contact.com",
+    "name": "Name",
+    "firstname": "Firstname",
+    "birthday": "01/01/1990",
+    "driving_licence_number": "MORGA657054SM9IJ"
+  },
+  "response": {},
+  "status_code": {
+    "200": "successful operation",
+    "400": "invalid ID supplied",
+    "405": "invalid input",
+    "406": "email already exist"
+  }
+}

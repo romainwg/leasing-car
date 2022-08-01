@@ -1,0 +1,10 @@
+INSERT INTO "public"."cars" ("matriculation_number", "brand", "model", "year") VALUES ('AB123CD', 'Peugeot', '405', '1999');
+INSERT INTO "public"."cars" ("matriculation_number", "brand", "model", "year") VALUES ('EF456GH', 'Renault', 'Megane', '1996');
+INSERT INTO "public"."cars" ("matriculation_number", "brand", "model", "year") VALUES ('IJ789KL', 'Toyota', 'Yaris', '2001');
+INSERT INTO "public"."cars" ("matriculation_number", "brand", "model", "year") VALUES ('MN147OP', 'Volkswagen', 'Polo', '1997');
+INSERT INTO "public"."cars" ("matriculation_number", "brand", "model", "year") VALUES ('HI987JK', 'Fiat', '500', '2008');
+INSERT INTO "public"."cars" ("matriculation_number", "brand", "model", "year") VALUES ('QR258ST', 'Peugeot', '406', '1998');
+INSERT INTO "public"."cars" ("matriculation_number", "brand", "model", "year") VALUES ('UV369WX', 'Renault', 'Megane', '1997');
+INSERT INTO "public"."cars" ("matriculation_number", "brand", "model", "year") VALUES ('ZA321BC', 'Toyota', 'Yaris', '2002');
+INSERT INTO "public"."cars" ("matriculation_number", "brand", "model", "year") VALUES ('DE654FG', 'Volkswagen', 'Polo', '1998');
+INSERT INTO "public"."cars" ("matriculation_number", "brand", "model", "year") VALUES ('LM753OP', 'Fiat', '500', '2008');

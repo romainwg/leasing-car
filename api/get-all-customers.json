@@ -1,0 +1,42 @@
+{
+  "method": "GET",
+  "params": {},
+  "request": {},
+  "response": {
+    "customers": [
+      {
+        "id": 0,
+        "email": "contact0@contact.com",
+        "name": "Name",
+        "firstname": "Firstname",
+        "birthday": "01/01/1990",
+        "driving_licence_number": "MORGA657054SM9IJ",
+        "car": {
+          "id": 0,
+          "matriculation_number": "AB123CD",
+          "brand": "Peugeot",
+          "model": "205",
+          "year": "1999"
+        }
+      },
+      {
+        "id": 1,
+        "email": "contact1@contact.com",
+        "name": "Name",
+        "firstname": "Firstname",
+        "birthday": "01/01/1990",
+        "driving_licence_number": "JEANA657054SM9IJ",
+        "car": {
+          "id": 2,
+          "matriculation_number": "AB124CD",
+          "brand": "Peugeot",
+          "model": "405",
+          "year": "1994"
+        }
+      }
+    ]
+  },
+  "status_code": {
+    "200": "successful operation"
+  }
+}
