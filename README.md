@@ -35,7 +35,6 @@ docker run --name leasing-car-app --env-file ./docker.env -p 6432:6432 -d leasin
 * struct to feeback status and error from sql to route (status for HTTP ; error for log)
 * check customer with regexp
 * update Makefile
-* update README.md with commands to launch the project
 * write requests in a swagger API file
 * add postman tests
 
@@ -45,7 +44,6 @@ docker run --name leasing-car-app --env-file ./docker.env -p 6432:6432 -d leasin
 
 ### Docker: installation instruction - specific to Windows (WSL)
 ```
-sudo apt-get install docker
 sudo apt-get update && sudo apt-get upgrade -y
 sudo apt-get install     ca-certificates     curl     gnupg     lsb-release
 sudo mkdir -p /etc/apt/keyrings
