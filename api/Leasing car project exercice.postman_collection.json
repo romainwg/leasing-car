@@ -19,13 +19,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:6432/customer/get/4",
+							"raw": "http://{{serveur_addr}}:6432/customer/get/4",
 							"protocol": "http",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{serveur_addr}}"
 							],
 							"port": "6432",
 							"path": [
@@ -43,13 +40,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:6432/customer/getall",
+							"raw": "http://{{serveur_addr}}:6432/customer/getall",
 							"protocol": "http",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{serveur_addr}}"
 							],
 							"port": "6432",
 							"path": [
@@ -76,13 +70,10 @@
 							"raw": "{\r\n    \"email\": \"contact1@contact.com\",\r\n    \"name\": \"Name\",\r\n    \"firstname\": \"Firstname\",\r\n    \"birthday\": \"1985-06-20T00:00:00Z\",\r\n    \"driving_licence_number\": \"MORGA657051SM9IJ\"\r\n}"
 						},
 						"url": {
-							"raw": "http://127.0.0.1:6432/customer/create",
+							"raw": "http://{{serveur_addr}}:6432/customer/create",
 							"protocol": "http",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{serveur_addr}}"
 							],
 							"port": "6432",
 							"path": [
@@ -109,13 +100,10 @@
 							"raw": "{\r\n    \"email\": \"contact@contact.com\",\r\n    \"name\": \"Name\",\r\n    \"firstname\": \"Firstname\",\r\n    \"birthday\": \"1985-06-20T00:00:00Z\",\r\n    \"driving_licence_number\": \"MORGA657054SM9IJ\"\r\n}"
 						},
 						"url": {
-							"raw": "http://127.0.0.1:6432/customer/update/7",
+							"raw": "http://{{serveur_addr}}:6432/customer/update/7",
 							"protocol": "http",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{serveur_addr}}"
 							],
 							"port": "6432",
 							"path": [
@@ -143,13 +131,10 @@
 							"raw": "{\r\n    \"customer_id\": 4,\r\n    \"car_id\": 12\r\n}"
 						},
 						"url": {
-							"raw": "http://127.0.0.1:6432/customer-car/associate",
+							"raw": "http://{{serveur_addr}}:6432/customer-car/associate",
 							"protocol": "http",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{serveur_addr}}"
 							],
 							"port": "6432",
 							"path": [
@@ -181,13 +166,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:6432/customer-car/disassociate",
+							"raw": "http://{{serveur_addr}}:6432/customer-car/disassociate",
 							"protocol": "http",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{serveur_addr}}"
 							],
 							"port": "6432",
 							"path": [
@@ -199,6 +181,33 @@
 					"response": []
 				}
 			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "serveur_addr",
+			"value": "127.0.0.1",
+			"type": "string"
 		}
 	]
 }

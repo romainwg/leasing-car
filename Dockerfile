@@ -24,4 +24,4 @@ RUN go build -v -o /app ./...
 WORKDIR /app
 
 # Launch app
-CMD ["sh", "-c", "./leasing-car"]
+CMD ["/bin/sh", "-c", "./leasing-car"]

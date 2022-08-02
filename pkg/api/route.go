@@ -3,13 +3,13 @@ package api
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	"strconv"
 
 	"github.com/julienschmidt/httprouter"
 )
 
+// InitRoute creates routes and start HTTP server
 func (h *BaseHandler) InitRoute(lp string) error {
 
 	// Create router and routess
@@ -22,7 +22,7 @@ func (h *BaseHandler) InitRoute(lp string) error {
 	router.POST("/customer-car/associate", h.associateCustomer2Car)
 	router.POST("/customer-car/disassociate", h.disassociateCustomer2Car)
 
-	log.Println("Create routes : OK\nTrying to launch server...")
+	InfoLogger.Println("Create routes : OK\nTrying to launch server on port " + lp + "...")
 
 	// Start server
 	err := http.ListenAndServe(":"+lp, router)
@@ -33,6 +33,7 @@ func (h *BaseHandler) InitRoute(lp string) error {
 	return err
 }
 
+// parseId tries to convert string id to integer
 func parseId(i string) (int, error) {
 	o, err := strconv.Atoi(i)
 	return o, err
@@ -102,14 +103,14 @@ func (h *BaseHandler) updateCustomer(w http.ResponseWriter, req *http.Request, p
 	if err != nil {
 		// 405
 		w.WriteHeader(http.StatusMethodNotAllowed)
-		WarningLogger.Printf("PUT /customer/update/%d - 405: successful ; json.NewDecoder(req.Body).Decode(%v) : %v\n", customerId, c, err)
+		WarningLogger.Printf("PUT /customer/update/%d - 405: error ; json.NewDecoder(req.Body).Decode(%v) : %v\n", customerId, c, err)
 		return
 	}
 
 	if !checkCustomer(c) {
 		// 405
 		w.WriteHeader(http.StatusMethodNotAllowed)
-		WarningLogger.Printf("PUT /customer/update/%d - 405: successful ; checkCustomer(%v) : %v\n", customerId, c, err)
+		WarningLogger.Printf("PUT /customer/update/%d - 405: error ; checkCustomer(%v) : %v\n", customerId, c, err)
 		return
 	}
 
@@ -117,7 +118,7 @@ func (h *BaseHandler) updateCustomer(w http.ResponseWriter, req *http.Request, p
 	if err != nil {
 		// 500
 		w.WriteHeader(http.StatusInternalServerError)
-		WarningLogger.Printf("PUT /customer/update/%d  - 500: successful ; updateCustomer(h.db, %d, %v) : %v\n", customerId, customerId, c, err)
+		WarningLogger.Printf("PUT /customer/update/%d  - 500: error ; updateCustomer(h.db, %d, %v) : %v\n", customerId, customerId, c, err)
 		return
 	}
 
@@ -171,14 +172,14 @@ func (h *BaseHandler) addCustomer(w http.ResponseWriter, req *http.Request, _ ht
 	if err != nil {
 		// 405
 		w.WriteHeader(http.StatusMethodNotAllowed)
-		WarningLogger.Printf("POST /customer/create - 405: successful ; json.NewDecoder(req.Body).Decode(%v) : %v\n", c, err)
+		WarningLogger.Printf("POST /customer/create - 405: error ; json.NewDecoder(req.Body).Decode(%v) : %v\n", c, err)
 		return
 	}
 
 	if !checkCustomer(c) {
 		// 405
 		w.WriteHeader(http.StatusMethodNotAllowed)
-		WarningLogger.Printf("POST /customer/create - 405: successful ; checkCustomer(%v) : %v\n", c, err)
+		WarningLogger.Printf("POST /customer/create - 405: error ; checkCustomer(%v) : %v\n", c, err)
 		return
 	}
 
@@ -186,7 +187,7 @@ func (h *BaseHandler) addCustomer(w http.ResponseWriter, req *http.Request, _ ht
 	if err != nil {
 		// 500
 		w.WriteHeader(http.StatusInternalServerError)
-		WarningLogger.Printf("POST /customer/create  - 500: successful ; addCustomer(h.db, %v) : %v\n", c, err)
+		WarningLogger.Printf("POST /customer/create  - 500: error ; addCustomer(h.db, %v) : %v\n", c, err)
 		return
 	}
 
@@ -209,14 +210,14 @@ func (h *BaseHandler) associateCustomer2Car(w http.ResponseWriter, req *http.Req
 	if err != nil {
 		// 405
 		w.WriteHeader(http.StatusMethodNotAllowed)
-		WarningLogger.Printf("POST /customer-car/associate - 405 : successful ; json.NewDecoder(req.Body).Decode(%v) : %v\n", c2C, err)
+		WarningLogger.Printf("POST /customer-car/associate - 405 : error ; json.NewDecoder(req.Body).Decode(%v) : %v\n", c2C, err)
 		return
 	}
 
 	if !checkCustomer2Car(c2C) {
 		// 405
 		w.WriteHeader(http.StatusMethodNotAllowed)
-		WarningLogger.Printf("POST /customer-car/associate - 405 : successful ; checkCustomer2Car(%v) : %v\n", c2C, err)
+		WarningLogger.Printf("POST /customer-car/associate - 405 : error ; checkCustomer2Car(%v) : %v\n", c2C, err)
 		return
 	}
 
@@ -224,7 +225,7 @@ func (h *BaseHandler) associateCustomer2Car(w http.ResponseWriter, req *http.Req
 	if err != nil {
 		// 500
 		w.WriteHeader(http.StatusInternalServerError)
-		WarningLogger.Printf("POST /customer-car/associate - 500 : successful ; addCustomer2Car(h.db, %v) : %v\n", c2C, err)
+		WarningLogger.Printf("POST /customer-car/associate - 500 : error ; addCustomer2Car(h.db, %v) : %v\n", c2C, err)
 		return
 	}
 
@@ -247,14 +248,14 @@ func (h *BaseHandler) disassociateCustomer2Car(w http.ResponseWriter, req *http.
 	if err != nil {
 		// 405
 		w.WriteHeader(http.StatusMethodNotAllowed)
-		WarningLogger.Printf("POST /customer-car/disassociate - 405 : successful ; json.NewDecoder(req.Body).Decode(%v) : %v\n", c2C, err)
+		WarningLogger.Printf("POST /customer-car/disassociate - 405 : error ; json.NewDecoder(req.Body).Decode(%v) : %v\n", c2C, err)
 		return
 	}
 
 	if !checkCustomer2Car(c2C) {
 		// 405
 		w.WriteHeader(http.StatusMethodNotAllowed)
-		WarningLogger.Printf("POST /customer-car/disassociate - 405 : successful ; checkCustomer2Car(%v) : %v\n", c2C, err)
+		WarningLogger.Printf("POST /customer-car/disassociate - 405 : error ; checkCustomer2Car(%v) : %v\n", c2C, err)
 		return
 	}
 
@@ -262,7 +263,7 @@ func (h *BaseHandler) disassociateCustomer2Car(w http.ResponseWriter, req *http.
 	if err != nil {
 		// 500
 		w.WriteHeader(http.StatusInternalServerError)
-		WarningLogger.Printf("POST /customer-car/disassociate - 500 : successful ; removeCustomer2Car(h.db, %v) : %v\n", c2C, err)
+		WarningLogger.Printf("POST /customer-car/disassociate - 500 : error ; removeCustomer2Car(h.db, %v) : %v\n", c2C, err)
 		return
 	}
 
