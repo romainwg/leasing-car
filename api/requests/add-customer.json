@@ -4,13 +4,14 @@
     "email": "contact@contact.com",
     "name": "Name",
     "firstname": "Firstname",
-    "birthday": "01/01/1990",
+    "birthday": "1985-06-20T00:00:00Z",
     "driving_licence_number": "MORGA657054SM9IJ"
   },
   "response": {},
   "status_code": {
     "200": "successful operation",
     "405": "invalid input",
-    "406": "email already exist"
+    "406": "email already exist",
+    "500": "internal server error"
   }
 }

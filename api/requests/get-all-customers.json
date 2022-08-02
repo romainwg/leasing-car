@@ -9,7 +9,7 @@
         "email": "contact0@contact.com",
         "name": "Name",
         "firstname": "Firstname",
-        "birthday": "01/01/1990",
+        "birthday": "1985-06-20T00:00:00Z",
         "driving_licence_number": "MORGA657054SM9IJ",
         "car": {
           "id": 0,
@@ -37,6 +37,8 @@
     ]
   },
   "status_code": {
-    "200": "successful operation"
+    "200": "successful operation",
+    "500": "internal server error"
   }
+
 }

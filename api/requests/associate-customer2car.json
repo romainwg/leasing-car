@@ -9,6 +9,7 @@
     "200": "successful operation",
     "400": "invalid ID supplied",
     "405": "invalid input",
-    "406": "car already associated"
+    "406": "car already associated",
+    "500": "internal server error"
   }
 }

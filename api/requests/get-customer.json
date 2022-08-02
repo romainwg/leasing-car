@@ -11,16 +11,16 @@
     "firstname": "Firstname",
     "birthday": "01/01/1990",
     "driving_licence_number": "MORGA657054SM9IJ",
-    "car": {
+    "car": [{
       "id": 0,
       "matriculation_number": "",
       "brand": "Peugeot",
       "model": "205"
-    }
+    }]
   },
   "status_code": {
     "200": "successful operation",
     "400": "invalid ID supplied",
-    "405": "invalid input"
+    "500": "internal server error"
   }
 }

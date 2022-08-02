@@ -16,5 +16,5 @@
 # vendor/
 build/
 
-# Ignore go files .mod / .sum
-go.*
+# Ignore go files go.sum
+go.sum
