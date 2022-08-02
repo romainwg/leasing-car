@@ -20,3 +20,7 @@ build_and_run: build run
 clean:
 	go clean
 #	rm ${BINARY_PATH}/${BINARY_NAME}-windows
+
+test:
+# 	go test ./... | grep -e "ok" -e "failed"
+	go test ./...

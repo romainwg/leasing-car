@@ -44,3 +44,14 @@ func checkCustomer(c customer) bool {
 	b = true
 	return b
 }
+
+func checkCustomer2Car(c2C customer2car) bool {
+	var b bool = false
+
+	// id : primary key ; > 0
+	if c2C.CustomerID > 0 && c2C.CarID > 0 {
+		b = true
+	}
+
+	return b
+}

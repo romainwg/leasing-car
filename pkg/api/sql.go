@@ -3,8 +3,6 @@ package api
 import (
 	"context"
 	"fmt"
-	"log"
-	"strconv"
 	"time"
 
 	"github.com/jackc/pgx/v4/pgxpool"
@@ -202,39 +200,7 @@ func getAllCustomer(dbPool *pgxpool.Pool) ([]customer, error) {
 	return cList, err
 }
 
-func TestPostgres(dbPool *pgxpool.Pool) {
-
-	log.Println("Fin connexion ; debut requete")
-
-	rows, err := dbPool.Query(context.Background(), "select * from public.cars")
-	if err != nil {
-		log.Fatal("error while executing query")
-	}
-
-	// iterate through the rows
-	for rows.Next() {
-		values, err := rows.Values()
-		if err != nil {
-			log.Fatal("error while iterating dataset")
-		}
-
-		// convert DB types to Go types
-		id := values[0].(int32)
-		matriculation_number := values[1].(string)
-		brand := values[2].(string)
-		model := values[3].(string)
-		year := values[4].(int32)
-
-		log.Println("id", id)
-		log.Println("matriculation_number", matriculation_number)
-		log.Println("brand", brand)
-		log.Println("model", model)
-		log.Println("year", year)
-	}
-
-}
-
-// updateCustomer return a customer from DB (select by id)
+// updateCustomer returns a customer from DB (select by id)
 func updateCustomer(dbPool *pgxpool.Pool, customerId int, customerData customer) error {
 
 	var err error = nil
@@ -300,7 +266,11 @@ func updateCustomer(dbPool *pgxpool.Pool, customerId int, customerData customer)
 	return err
 }
 
-func TestTransaction(dbPool *pgxpool.Pool) error {
+// addCustomer add a customer to DB
+func addCustomer(dbPool *pgxpool.Pool, customerData customer) error {
+
+	var err error = nil
+
 	ctx := context.TODO()
 
 	tx, err := dbPool.Begin(ctx)
@@ -311,22 +281,137 @@ func TestTransaction(dbPool *pgxpool.Pool) error {
 	// the tx commits successfully, this is a no-op
 	defer tx.Rollback(ctx)
 
-	sec := time.Now().Unix()
-	secStr := strconv.Itoa(int(sec))
-	request := "INSERT INTO \"public\".\"customers\" (\"email\", \"name\", \"firstname\", \"birthday\", \"driving_licence_number\") VALUES ('test" + secStr + "@a-pro.fr', 'Duchene', 'Olivier', '1985-06-20', 'TEST" + secStr + "IJ');"
+	request := `INSERT INTO customers
+				(email, name, firstname, birthday, driving_licence_number)
+				VALUES ($1, $2, $3, $4, $5);`
 
-	log.Println(request)
-
-	_, err = tx.Exec(ctx, request)
+	_, err = tx.Exec(ctx, request,
+		customerData.Email,
+		customerData.Name,
+		customerData.Firstname,
+		customerData.Birthday,
+		customerData.DrivingLicenceNumber)
 	if err != nil {
 		return err
 	}
 
-	request = "INSERT INTO \"public\".\"cars\" (\"matriculation_number\", \"brand\", \"model\", \"year\") VALUES ('LM" + secStr + "OP', 'Fiat', '500', '2008');"
+	err = tx.Commit(ctx)
+	if err != nil {
+		return err
+	}
 
-	log.Println(request)
+	return err
+}
 
-	_, err = tx.Exec(ctx, request)
+// addCustomer2Car add a relation between one user and a car in DB
+func addCustomer2Car(dbPool *pgxpool.Pool, customer2car customer2car) error {
+
+	var err error = nil
+
+	ctx := context.TODO()
+
+	tx, err := dbPool.Begin(ctx)
+	if err != nil {
+		return err
+	}
+	// Rollback is safe to call even if the tx is already closed, so if
+	// the tx commits successfully, this is a no-op
+	defer tx.Rollback(ctx)
+
+	// Count carId (check if already associated)
+	request := `SELECT COUNT(id)
+				FROM customer2car
+				WHERE car_id = $1
+				LIMIT 1;`
+
+	rows, err := tx.Query(ctx, request, customer2car.CarID)
+	if err != nil {
+		return fmt.Errorf("addCustomer2Car - dbPool.Query : %v", err)
+	}
+
+	// Count number of carId
+	var count int32 = 0
+
+	// iterate through the rows
+	for rows.Next() {
+		err := rows.Scan(&count)
+		if err != nil {
+			return fmt.Errorf("addCustomer2Car - rows.Scan : %v", err)
+		}
+	}
+
+	if count != 0 {
+		return fmt.Errorf("addCustomer2Car - car already associate with an user : %v", err)
+	}
+
+	// Insert association
+	request = `INSERT INTO customer2car
+				(customer_id, car_id)
+				VALUES ($1, $2);`
+
+	_, err = tx.Exec(ctx, request,
+		customer2car.CustomerID,
+		customer2car.CarID)
+	if err != nil {
+		return err
+	}
+
+	err = tx.Commit(ctx)
+	if err != nil {
+		return err
+	}
+
+	return err
+}
+
+// removeCustomer2Car removes a relation between one user and a car in DB
+func removeCustomer2Car(dbPool *pgxpool.Pool, customer2car customer2car) error {
+
+	var err error = nil
+
+	ctx := context.TODO()
+
+	tx, err := dbPool.Begin(ctx)
+	if err != nil {
+		return err
+	}
+	// Rollback is safe to call even if the tx is already closed, so if
+	// the tx commits successfully, this is a no-op
+	defer tx.Rollback(ctx)
+
+	// Check if the association exist between customer and car
+	request := `SELECT COUNT(id)
+				FROM customer2car
+				WHERE customer_id = $1 AND car_id = $2
+				LIMIT 1;`
+
+	rows, err := tx.Query(ctx, request, customer2car.CustomerID, customer2car.CarID)
+	if err != nil {
+		return fmt.Errorf("removeCustomer2Car - dbPool.Query : %v", err)
+	}
+
+	// Count number of relation between customer and car
+	var count int32 = 0
+
+	// iterate through the rows
+	for rows.Next() {
+		err := rows.Scan(&count)
+		if err != nil {
+			return fmt.Errorf("removeCustomer2Car - rows.Scan : %v", err)
+		}
+	}
+
+	if count == 0 {
+		return fmt.Errorf("removeCustomer2Car - car isn't associated to user : %v", err)
+	}
+
+	// Remove association
+	request = `DELETE FROM customer2car
+				WHERE customer_id = $1 AND car_id = $2;`
+
+	_, err = tx.Exec(ctx, request,
+		customer2car.CustomerID,
+		customer2car.CarID)
 	if err != nil {
 		return err
 	}
