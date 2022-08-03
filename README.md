@@ -7,6 +7,8 @@
 </p>
 
 
+## Demo
+https://api.leasing-car.r-wg.it/
 
 ## Utilisation
 
@@ -105,7 +107,7 @@ sudo docker exec -it `sudo docker ps | grep "postgres-db" | sed 's/^\([a-z0-9]*\
 
 sudo docker exec -it `sudo docker ps | grep "leasing-car" | sed 's/^\([a-z0-9]*\)\s*.*$/\1/'` /bin/sh
 
-sudo docker run -it --env-file ./docker.env -e ENV_LC_DB_PASSWORD=$ENV_LC_DB_PASSWORD  --entrypoint /bin/sh leasing-car
+sudo docker run -it --env-file ./docker.env -e ENV_LC_DB_HOST=$ENV_LC_DB_HOST -e ENV_LC_DB_PASSWORD=$ENV_LC_DB_PASSWORD  --entrypoint /bin/sh leasing-car
 
 # get IP from the container
 sudo docker inspect `sudo docker ps | grep "postgres" | sed 's/^\([a-z0-9]*\)\s*.*$/\1/'` | grep IPAddress
