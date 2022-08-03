@@ -1,11 +1,11 @@
 # ubuntu part
-docker_clean:
-#	remove "Exited" or "Created" container
-	sudo docker rm `sudo docker ps -a | grep -e "Exited" -e "Created" | sed 's/^\([a-z0-9]*\)\s*.*/\1/'`
-#	remove <none> images
-	sudo docker rmi -f `sudo docker images | egrep "<none>\s+<none>\s+([a-z0-9]+)" | sed 's/^\(<none>\)\s*\(<none>\)\s*\([a-z0-9]*\)\s*.*/\3/'`
-#	remove leasing-car images
-	sudo docker rmi -f `sudo docker images | egrep "leasing-car\s+[a-z0-9A-Z-]+\s+([a-z0-9]+)" | sed 's/^\(leasing-car\)\s*\([a-z0-9A-Z-]*\)\s*\([a-z0-9]*\)\s*.*/\3/'`
+# docker_clean:
+# #	remove "Exited" or "Created" container
+# 	sudo docker rm `sudo docker ps -a | grep -e "Exited" -e "Created" | sed 's/^\([a-z0-9]*\)\s*.*/\1/'`
+# #	remove <none> images
+# 	sudo docker rmi -f `sudo docker images | egrep "<none>\s+<none>\s+([a-z0-9]+)" | sed 's/^\(<none>\)\s*\(<none>\)\s*\([a-z0-9]*\)\s*.*/\3/'`
+# #	remove leasing-car images
+# 	sudo docker rmi -f `sudo docker images | egrep "leasing-car\s+[a-z0-9A-Z-]+\s+([a-z0-9]+)" | sed 's/^\(leasing-car\)\s*\([a-z0-9A-Z-]*\)\s*\([a-z0-9]*\)\s*.*/\3/'`
 
 docker_build:
 	sudo docker build --tag leasing-car .
