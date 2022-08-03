@@ -19,16 +19,15 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{serveur_addr}}:6432/customer/get/4",
-							"protocol": "http",
+							"raw": "https://{{serveur_addr}}/customer/get/3",
+							"protocol": "https",
 							"host": [
 								"{{serveur_addr}}"
 							],
-							"port": "6432",
 							"path": [
 								"customer",
 								"get",
-								"4"
+								"3"
 							]
 						}
 					},
@@ -40,12 +39,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{serveur_addr}}:6432/customer/getall",
-							"protocol": "http",
+							"raw": "https://{{serveur_addr}}/customer/getall",
+							"protocol": "https",
 							"host": [
 								"{{serveur_addr}}"
 							],
-							"port": "6432",
 							"path": [
 								"customer",
 								"getall"
@@ -67,15 +65,14 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"contact1@contact.com\",\r\n    \"name\": \"Name\",\r\n    \"firstname\": \"Firstname\",\r\n    \"birthday\": \"1985-06-20T00:00:00Z\",\r\n    \"driving_licence_number\": \"MORGA657051SM9IJ\"\r\n}"
+							"raw": "{\r\n    \"email\": \"test@contact.com\",\r\n    \"name\": \"Nametest'\",\r\n    \"firstname\": \"Firstname\",\r\n    \"birthday\": \"1950-06-20T00:00:00Z\",\r\n    \"driving_licence_number\": \"TESTT654051SM9IJ\"\r\n}"
 						},
 						"url": {
-							"raw": "http://{{serveur_addr}}:6432/customer/create",
-							"protocol": "http",
+							"raw": "https://{{serveur_addr}}/customer/create",
+							"protocol": "https",
 							"host": [
 								"{{serveur_addr}}"
 							],
-							"port": "6432",
 							"path": [
 								"customer",
 								"create"
@@ -100,12 +97,11 @@
 							"raw": "{\r\n    \"email\": \"contact@contact.com\",\r\n    \"name\": \"Name\",\r\n    \"firstname\": \"Firstname\",\r\n    \"birthday\": \"1985-06-20T00:00:00Z\",\r\n    \"driving_licence_number\": \"MORGA657054SM9IJ\"\r\n}"
 						},
 						"url": {
-							"raw": "http://{{serveur_addr}}:6432/customer/update/7",
-							"protocol": "http",
+							"raw": "https://{{serveur_addr}}/customer/update/7",
+							"protocol": "https",
 							"host": [
 								"{{serveur_addr}}"
 							],
-							"port": "6432",
 							"path": [
 								"customer",
 								"update",
@@ -128,15 +124,14 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"customer_id\": 4,\r\n    \"car_id\": 12\r\n}"
+							"raw": "{\r\n    \"customer_id\": 2,\r\n    \"car_id\": 3\r\n}"
 						},
 						"url": {
-							"raw": "http://{{serveur_addr}}:6432/customer-car/associate",
-							"protocol": "http",
+							"raw": "https://{{serveur_addr}}/customer-car/associate",
+							"protocol": "https",
 							"host": [
 								"{{serveur_addr}}"
 							],
-							"port": "6432",
 							"path": [
 								"customer-car",
 								"associate"
@@ -166,12 +161,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{serveur_addr}}:6432/customer-car/disassociate",
-							"protocol": "http",
+							"raw": "https://{{serveur_addr}}/customer-car/disassociate",
+							"protocol": "https",
 							"host": [
 								"{{serveur_addr}}"
 							],
-							"port": "6432",
 							"path": [
 								"customer-car",
 								"disassociate"
@@ -206,7 +200,7 @@
 	"variable": [
 		{
 			"key": "serveur_addr",
-			"value": "127.0.0.1",
+			"value": "api.leasing-car.r-wg.it",
 			"type": "string"
 		}
 	]

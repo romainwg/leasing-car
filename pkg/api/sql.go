@@ -103,7 +103,7 @@ func getCustomer(dbPool *pgxpool.Pool, customerId int) (customer, error) {
 			c.Car = append(c.Car, car{
 				ID:                  *carId,
 				MatriculationNumber: *matriculationNumber,
-				Brand:               *matriculationNumber,
+				Brand:               *brand,
 				Model:               *model,
 				Year:                *year,
 			})
@@ -187,7 +187,7 @@ func getAllCustomer(dbPool *pgxpool.Pool) ([]customer, error) {
 			c.Car = append(c.Car, car{
 				ID:                  *carId,
 				MatriculationNumber: *matriculationNumber,
-				Brand:               *matriculationNumber,
+				Brand:               *brand,
 				Model:               *model,
 				Year:                *year,
 			})
