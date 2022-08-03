@@ -33,7 +33,7 @@ export ENV_LC_LISTENING_PORT="6432"
 ### PostgreSQL installation
 ```
 # run postgresql:12-alpine image in detach mode
-sudo docker run --name postgres-db -e POSTGRES_PASSWORD=$ENV_LC_DB_PASSWORD -p $ENV_LC_DB_PORT:$ENV_LC_DB_PORT -d postgres:12-alpine
+sudo docker run --name postgres-db -e POSTGRES_PASSWORD=$ENV_LC_DB_PASSWORD -p 127.0.0.1:$ENV_LC_DB_PORT:$ENV_LC_DB_PORT -d postgres:12-alpine
 
 # start postgres-db container if it is not
 sudo docker start postgres-db
@@ -60,7 +60,7 @@ sudo docker run \
 --env-file ./docker.env \
 -e ENV_LC_DB_HOST=$ENV_LC_DB_HOST \
 -e ENV_LC_DB_PASSWORD=$ENV_LC_DB_PASSWORD \
--p $ENV_LC_LISTENING_PORT:$ENV_LC_LISTENING_PORT \
+-p 127.0.0.1:$ENV_LC_LISTENING_PORT:$ENV_LC_LISTENING_PORT \
 -d \
 leasing-car
 

@@ -197,6 +197,11 @@ func getAllCustomer(dbPool *pgxpool.Pool) ([]customer, error) {
 		prevId = id
 	}
 
+	// Add the last customer if it exists
+	if c.ID != 0 {
+		cList = append(cList, c)
+	}
+
 	return cList, err
 }
 
