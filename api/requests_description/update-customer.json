@@ -1,5 +1,5 @@
 {
-  "method": "POST",
+  "method": "PUT",
   "request": {
     "email": "contact@contact.com",
     "name": "Name",
@@ -10,8 +10,10 @@
   "response": {},
   "status_code": {
     "200": "successful operation",
-    "405": "invalid input",
+    "400": "invalid input",
+    "405": "invalid ID supplied",
     "406": "email already exist",
+    "407": "driving licence number already exist",
     "500": "internal server error"
   }
 }

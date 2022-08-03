@@ -22,9 +22,12 @@ func (h *BaseHandler) InitRoute(lp string) error {
 	router.POST("/customer-car/associate", h.associateCustomer2Car)
 	router.POST("/customer-car/disassociate", h.disassociateCustomer2Car)
 
-	router.GET("/", h.home)
+	router.GET("/home", h.home)
 
-	InfoLogger.Println("Create routes : OK\nTrying to launch server on port " + lp + "...")
+	router.ServeFiles("/api/*filepath", http.Dir("/src/api/openapi/"))
+
+	InfoLogger.Println("Create routes : OK")
+	InfoLogger.Println("Trying to launch server on port" + lp + "...")
 
 	// Start server
 	err := http.ListenAndServe(":"+lp, router)
@@ -278,9 +281,16 @@ func (h *BaseHandler) disassociateCustomer2Car(w http.ResponseWriter, req *http.
 
 func (h *BaseHandler) home(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
 
+	const homeStr string = `
+	<meta http-equiv="refresh" content="0; URL=api/"/>
+	<a href="api">API Description</a>
+	<a href="https://github.com/romainwg/leasing-car">Github</a>
+	`
+
 	// Output
 	w.WriteHeader(http.StatusOK)
-	fmt.Fprintf(w, "https://github.com/romainwg/leasing-car")
+	w.Header().Add("Content-Type", "text/html; charset=UTF-8")
+	fmt.Fprint(w, homeStr)
 
 	// Log
 	InfoLogger.Printf("GET /home - 200: successful")
