@@ -22,9 +22,9 @@ func (h *BaseHandler) InitRoute(lp string) error {
 	router.POST("/customer-car/associate", h.associateCustomer2Car)
 	router.POST("/customer-car/disassociate", h.disassociateCustomer2Car)
 
-	router.GET("/home", h.home)
+	router.GET("/", h.home)
 
-	router.ServeFiles("/api/*filepath", http.Dir("/src/api/openapi/"))
+	router.ServeFiles("/api/*filepath", http.Dir("/app/src/api/openapi/"))
 
 	InfoLogger.Println("Create routes : OK")
 	InfoLogger.Println("Trying to launch server on port" + lp + "...")
@@ -281,15 +281,22 @@ func (h *BaseHandler) disassociateCustomer2Car(w http.ResponseWriter, req *http.
 
 func (h *BaseHandler) home(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
 
-	const homeStr string = `
-	<meta http-equiv="refresh" content="0; URL=api/"/>
-	<a href="api">API Description</a>
-	<a href="https://github.com/romainwg/leasing-car">Github</a>
+	w.Header().Add("Content-Type", "text/html; charset=UTF-8")
+
+	const homeStr string = `<html>
+	<head>
+		<title>leasing-car API</title>
+	</head>
+	<body>
+		<meta http-equiv="refresh" content="0; URL=api/"/><br>
+		<a href="api">API Description</a><br>
+		<a href="https://github.com/romainwg/leasing-car">Github</a>
+	</body>
+	</html>
 	`
 
 	// Output
 	w.WriteHeader(http.StatusOK)
-	w.Header().Add("Content-Type", "text/html; charset=UTF-8")
 	fmt.Fprint(w, homeStr)
 
 	// Log
