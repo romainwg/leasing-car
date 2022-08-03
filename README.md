@@ -10,24 +10,54 @@
 
 ## Utilisation
 
+### Setting environment variables
+#### Windows
+```
+$env:ENV_LC_DB_USERNAME="postgres"
+$env:ENV_LC_DB_PASSWORD="postgres_password"
+$env:ENV_LC_DB_HOST="127.0.0.1"
+$env:ENV_LC_DB_PORT="5432"
+$env:ENV_LC_DB_NAME="postgres"
+$env:ENV_LC_LISTENING_PORT="6432"
+```
+#### Linux
+```
+export ENV_LC_DB_USERNAME="postgres"
+export ENV_LC_DB_PASSWORD="postgres_password"
+export ENV_LC_DB_HOST="127.0.0.1"
+export ENV_LC_DB_PORT="5432"
+export ENV_LC_DB_NAME="postgres"
+export ENV_LC_LISTENING_PORT="6432"
+```
+
 ### PostgreSQL installation
 ```
-docker run --name postgres-db -e POSTGRES_PASSWORD=$PASSWORD_DOCKER_POSTGRESQL_ROOT -p 5432:5432 -d postgres:12-alpine
+# run postgresql:12-alpine image in detach mode
+docker run --name postgres-db -e POSTGRES_PASSWORD=$ENV_LC_DB_PASSWORD -p $ENV_LC_DB_PORT:$ENV_LC_DB_PORT -d postgres:12-alpine
 
+# start postgres-db container if it is not
 docker start postgres-db
 
-docker inspect `docker ps | grep "postgres" | sed 's/^\([a-z0-9]*\)\s*.*$/\1/'` | grep IPAddress
+# import init data in postgres-db container
+docker exec -i postgres-db psql -U $ENV_LC_DB_USERNAME -d $ENV_LC_DB_NAME < sql/backup_init/init_db.sql
 ```
 
 
 ### Application installation
 ```
+# build leasing-car image
 docker build --tag leasing-car .
 
-export ENV_LC_DB_PASSWORD="my_password"
+# run leasing-car-app image in detach mode
+docker run --name leasing-car-app --env-file ./docker.env -p $ENV_LC_LISTENING_PORT:$ENV_LC_LISTENING_PORT -d leasing-car
 
-docker run --name leasing-car-app --env-file ./docker.env -p 6432:6432 -d leasing-car
+# start postgres-db container if it is not
+docker start leasing-car-app
+
+# application test
+curl --request GET "http://127.0.0.1:${ENV_LC_LISTENING_PORT}/customer/getall"
 ```
+
 
 
 ## TODO
@@ -44,7 +74,7 @@ docker run --name leasing-car-app --env-file ./docker.env -p 6432:6432 -d leasin
 
 ### Docker: installation instruction - specific to Windows (WSL)
 ```
-sudo apt-get update && sudo apt-get upgrade -y
+sudo apt-get update
 sudo apt-get install     ca-certificates     curl     gnupg     lsb-release
 sudo mkdir -p /etc/apt/keyrings
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
@@ -58,6 +88,12 @@ service docker start
 
 ### Docker: debug
 ```
+docker exec -it `docker ps | grep "postgres-db" | sed 's/^\([a-z0-9]*\)\s*.*$/\1/'` /bin/sh
+
 docker exec -it `docker ps | grep "leasing-car" | sed 's/^\([a-z0-9]*\)\s*.*$/\1/'` /bin/sh
+
 docker run -it --env-file ./docker.env --entrypoint /bin/sh leasing-car
+
+# get IP from the container
+docker inspect `docker ps | grep "postgres" | sed 's/^\([a-z0-9]*\)\s*.*$/\1/'` | grep IPAddress
 ```
