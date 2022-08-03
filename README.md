@@ -33,26 +33,26 @@ export ENV_LC_LISTENING_PORT="6432"
 ### PostgreSQL installation
 ```
 # run postgresql:12-alpine image in detach mode
-docker run --name postgres-db -e POSTGRES_PASSWORD=$ENV_LC_DB_PASSWORD -p $ENV_LC_DB_PORT:$ENV_LC_DB_PORT -d postgres:12-alpine
+sudo docker run --name postgres-db -e POSTGRES_PASSWORD=$ENV_LC_DB_PASSWORD -p $ENV_LC_DB_PORT:$ENV_LC_DB_PORT -d postgres:12-alpine
 
 # start postgres-db container if it is not
-docker start postgres-db
+sudo docker start postgres-db
 
 # import init data in postgres-db container
-docker exec -i postgres-db psql -U $ENV_LC_DB_USERNAME -d $ENV_LC_DB_NAME < sql/backup_init/init_db.sql
+sudo docker exec -i postgres-db psql -U $ENV_LC_DB_USERNAME -d $ENV_LC_DB_NAME < sql/init/init_db.sql
 ```
 
 
 ### Application installation
 ```
 # build leasing-car image
-docker build --tag leasing-car .
+sudo docker build --tag leasing-car .
 
 # run leasing-car-app image in detach mode
-docker run --name leasing-car-app --env-file ./docker.env -p $ENV_LC_LISTENING_PORT:$ENV_LC_LISTENING_PORT -d leasing-car
+sudo docker run --name leasing-car-app --env-file ./docker.env -p $ENV_LC_LISTENING_PORT:$ENV_LC_LISTENING_PORT -d leasing-car
 
 # start postgres-db container if it is not
-docker start leasing-car-app
+sudo docker start leasing-car-app
 
 # application test
 curl --request GET "http://127.0.0.1:${ENV_LC_LISTENING_PORT}/customer/getall"
@@ -83,17 +83,17 @@ $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev
 sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
 
-service docker start
+sudo service docker start
 ```
 
 ### Docker: debug
 ```
-docker exec -it `docker ps | grep "postgres-db" | sed 's/^\([a-z0-9]*\)\s*.*$/\1/'` /bin/sh
+sudo docker exec -it `sudo docker ps | grep "postgres-db" | sed 's/^\([a-z0-9]*\)\s*.*$/\1/'` /bin/sh
 
-docker exec -it `docker ps | grep "leasing-car" | sed 's/^\([a-z0-9]*\)\s*.*$/\1/'` /bin/sh
+sudo docker exec -it `sudo docker ps | grep "leasing-car" | sed 's/^\([a-z0-9]*\)\s*.*$/\1/'` /bin/sh
 
-docker run -it --env-file ./docker.env --entrypoint /bin/sh leasing-car
+sudo docker run -it --env-file ./docker.env --entrypoint /bin/sh leasing-car
 
 # get IP from the container
-docker inspect `docker ps | grep "postgres" | sed 's/^\([a-z0-9]*\)\s*.*$/\1/'` | grep IPAddress
+sudo docker inspect `sudo docker ps | grep "postgres" | sed 's/^\([a-z0-9]*\)\s*.*$/\1/'` | grep IPAddress
 ```
