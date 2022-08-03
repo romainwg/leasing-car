@@ -30,7 +30,7 @@ func ConnectDB(databaseUrl string) (*pgxpool.Pool, error) {
 	dbPool, err := pgxpool.Connect(context.Background(), databaseUrl)
 
 	if err != nil {
-		return dbPool, fmt.Errorf("Unable to connect to database: %v", err)
+		return dbPool, fmt.Errorf("unable to connect to database: %v", err)
 	}
 
 	return dbPool, err

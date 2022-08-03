@@ -22,6 +22,8 @@ func (h *BaseHandler) InitRoute(lp string) error {
 	router.POST("/customer-car/associate", h.associateCustomer2Car)
 	router.POST("/customer-car/disassociate", h.disassociateCustomer2Car)
 
+	router.GET("/", h.home)
+
 	InfoLogger.Println("Create routes : OK\nTrying to launch server on port " + lp + "...")
 
 	// Start server
@@ -272,4 +274,14 @@ func (h *BaseHandler) disassociateCustomer2Car(w http.ResponseWriter, req *http.
 
 	// Log
 	InfoLogger.Printf("POST /customer-car/disassociate - 200 : successful")
+}
+
+func (h *BaseHandler) home(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
+
+	// Output
+	w.WriteHeader(http.StatusOK)
+	fmt.Fprintf(w, "https://github.com/romainwg/leasing-car")
+
+	// Log
+	InfoLogger.Printf("GET /home - 200: successful")
 }
