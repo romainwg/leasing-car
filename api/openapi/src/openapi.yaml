@@ -1,11 +1,19 @@
 openapi: 3.0.0
 info:
-  title: Swagger Leasing-car  - OpenAPI 3.0
+  title: Swagger Leasing-car - OpenAPI 3.0
   version: 1.0.0
   description: |-
-    Swagger for Leasing-car project
-
-    [Github](https://github.com/romainwg/leasing-car)
+    Swagger for leasing-car project
+# [Github](https://github.com/romainwg/leasing-car)
+  # termsOfService: http://swagger.io/terms/
+  contact: 
+    email: contact@r-wg.it
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+externalDocs:
+  description: Find out more about Swagger
+  url: https://github.com/romainwg/leasing-car
 servers:
   - url: https://api.leasing-car.r-wg.it
 tags:
@@ -61,17 +69,27 @@ paths:
           application/json:
             schema:
               type: object
-              example:
-                email: test@contact.com
-                name: Nametest'
-                firstname: Firstname
-                birthday: '1950-06-20T00:00:00Z'
-                driving_licence_number: TESTT654051SM9IJ
+              properties:
+                email:
+                  type: string
+                  example: "contact@r-wg.it"
+                name:
+                  type: string
+                  example: "Romain"
+                firstname:
+                  type: string
+                  example: "WG"
+                birthday:
+                  type: string
+                  format: date-time
+                  example: "1990-12-13T00:00:00Z"
+                driving_licence_number:
+                  type: string
+                  example: "ROMAW657054SM9IJ"
+        required: true
       responses:
         '200':
           description: Successful response
-          content:
-            application/json: {}
         '405':
           description: invalid input
         '406':
@@ -94,38 +112,31 @@ paths:
         - customer
       summary: update-customer
       requestBody:
+        required: true
         content:
           application/json:
             schema:
               type: object
-              example:
-                email: contact@contact.com
-                name: Name
-                firstname: Firstname
-                birthday: '1985-06-20T00:00:00Z'
-                driving_licence_number: MORGA657054SM9IJ
+              properties:
+                email:
+                  type: string
+                  example: "contact@r-wg.it"
+                name:
+                  type: string
+                  example: "Romain"
+                firstname:
+                  type: string
+                  example: "WG"
+                birthday:
+                  type: string
+                  format: date-time
+                  example: "1990-12-13T00:00:00Z"
+                driving_licence_number:
+                  type: string
+                  example: "ROMAW657054SM9IJ"
       responses:
         '200':
           description: Successful response
-          content:
-            application/json:
-              schema:
-                type: object
-                example:
-                  id: 2
-                  email: contact@contact.com
-                  name: Name
-                  firstname: Firstname
-                  birthday: '1985-06-20T00:00:00Z'
-                  driving_licence_number: MORGA657054SM9IJ
-                  cars:
-                    type: array
-                    items:
-                      id: 2
-                    email: contact@contact.com
-                    name: Name
-                    firstname: Firstname
-                    birthday: '1985-06-20T00:00:00Z'
         '400':
           description: invalid input
         '405':
@@ -142,6 +153,7 @@ paths:
         - customer
       summary: associate-customer2car
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -152,8 +164,6 @@ paths:
       responses:
         '200':
           description: Successful response
-          content:
-            application/json: {}
         '400':
           description: invalid ID supplied
         '405':
@@ -168,6 +178,7 @@ paths:
         - customer
       summary: disassociate-customer2car
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -178,8 +189,6 @@ paths:
       responses:
         '200':
           description: Successful response
-          content:
-            application/json: {}
         '400':
           description: invalid ID supplied
         '405':
@@ -237,21 +246,3 @@ components:
           type: string
           format: int32
           example: 1994
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
